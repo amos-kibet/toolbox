@@ -1,5 +1,5 @@
 ## Best Practices
 
-- Describe your tests with `should` keyword fro clarity
+- Describe your tests with `should` keyword for clarity.
 
-- Group common/reusable test code in a `setup` or `setup_all` block
+- Group common/reusable test code in a `setup` or `setup_all` block.
