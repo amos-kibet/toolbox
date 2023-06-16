@@ -1,6 +1,6 @@
 ## Ecto Associations ([Read more](https://elixirschool.com/en/lessons/ecto/associations))
 
-- There are three types of associations you can define between our schemas:
+- There are three types of associations you can define between Ecto schemas:
   - belongs to/has many association.
   - belongs to/has one association.
   - many to many association
@@ -40,14 +40,14 @@ defmodule MyApp.Repo.Migrations.CreateCharacters do
 end
 ```
 
-The schema as well needs to define the belongs to relationship between a character and its movie.
+The schema as well needs to define the `belongs to` relationship between a character and its movie.
 
 ```elixir
 defmodule MyApp.Characters.Character do
     use Ecto.Schema
     schema "characters" do
         field :name, :string,
-        belongs_to :movies, Movie
+        belongs_to :movie, Movie
     end
 end
 ```
@@ -108,7 +108,7 @@ The `has_one/3` macro functions just like the `has_may/3` macro. It uses the ass
 
 Let’s say that a movie has many actors and that an actor can belong to more than one movie. You’ll build a join table that references both movies and actors to implement this relationship.
 
-The actors migration will like this:
+The actors migration will look like this:
 
 ```elixir
 defmodule MyApp.Repo.Migrations.CreateActor do
@@ -173,7 +173,7 @@ end
 
 **Saving with Ecto.build_assoc/3**
 
-`build_assoc/3 takes in three arguments:
+`build_assoc/3` takes in three arguments:
 
 - the struct of the record you want to save,
 - the name of the association, and,
