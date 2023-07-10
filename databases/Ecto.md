@@ -28,7 +28,7 @@ query = from u in "users",
 Repo.all(query)
 ```
 
-#### Ecto.Query Functions ([Read more here](https://hexdocs.pm/ecto/Ecto.Query.html#functions))
+### Ecto.Query Functions ([Read more here](https://hexdocs.pm/ecto/Ecto.Query.html#functions))
 
 **`from(expr, kw \\ [])`**
 
@@ -45,7 +45,7 @@ def published(query) do
 end
 ```
 
-- In the above example, notice we have created a p variable to reference the query's original data source. This assumes that the original query only had one source. When the given query has more than one source, positional or named bindings may be used to access the additional sources.
+- In the above example, notice we have created a `p` variable to reference the query's original data source. This assumes that the original query only had one source. When the given query has more than one source, positional or named bindings may be used to access the additional sources.
 
 ```elixir
 def published_multi(query) do
@@ -63,7 +63,7 @@ end
 - Currently, it is possible to join on:
 
   - an `Ecto.Schema`, such as `p in Post`.
-  - an interpolated Ecto query with zero or more `where` clauses, such as `c in^(from "posts", where: [public: true])`.
+  - an interpolated Ecto query with zero or more `where` clauses, such as `c in ^(from "posts", where: [public: true])`.
   - an association, such as `c in assoc(post: comments)`.
   - a subquery, such as `c in subquery(another_query)`.
   - a query fragment, such as `c in fragment("SOME COMPLEX QUERY")`.
