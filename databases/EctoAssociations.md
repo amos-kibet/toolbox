@@ -1,9 +1,10 @@
 ## Ecto Associations ([Read more](https://elixirschool.com/en/lessons/ecto/associations))
 
-- There are three types of associations you can define between Ecto schemas:
-  - belongs to/has many association.
-  - belongs to/has one association.
-  - many to many association
+There are three types of associations you can define between Ecto schemas:
+
+- belongs to/has many association.
+- belongs to/has one association.
+- many to many association
 
 ### Belongs to/Has many Association
 
@@ -385,3 +386,37 @@ iex> Repo.update!(changeset)
   title: "Ready Player One"
 }
 ```
+
+### Other functions to save associated data
+
+**put_change and cast_assoc**
+
+- JUst as we use `change` for creating a changeset from trusted data, we can use `put_change` to manually add a change to a changeset. E.g. `Ecto.Changeset.put_change(changeset, :agreed_to_terms, true)`
+
+- `cast_assoc` acts like the cast version of `put_assoc`, creating an entire associated struct from the changes in the changeset. See example below:
+
+```elixir
+attrs = %{
+  "title" => "Lots of tech books",
+  "link" => %{
+    %{"url" => "https://manning.com"}
+  },
+  %{"user_id" => "4"}
+}
+
+%Bookmark{}
+|> Bookmark.changeset(attrs)
+|> cast_assoc(:link)
+|> Repo.insert()
+```
+
+- By default, `cast_assoc` will use the changeset function `Link.changeset` to cast the association since `:link` was the name of the association. You can specify a different changeset function to use by passing in an optional `with: &your_changeset_function/2` parameter to `cast_assoc`.
+
+### Summary
+
+- `build_assoc` - is very useful for creating a struct associated to an existing record.
+- `put_assoc` - creates or replaces the changes for an associated struct on a changeset.
+- `put_change` - manually adds a change to a changeset.
+- `cast_assoc` - creates or replaces the changes for an associated struct on a changeset, using a changeset function (which should call cast).
+
+**NOTE:** Be careful with `put_assoc` and `cast_assoc` if you're dealing with a collection. They will replace the entire collection. Usually, you should be using them for singular associations, not associations of many things.

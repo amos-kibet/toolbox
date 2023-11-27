@@ -14,18 +14,25 @@ Ecto is split into 4 main components:
   - keyword-based,
   - macro-based
 
-**Example:**
+**Keyword-based Example:**
 
 ```elixir
 import Ecto.Query, only [from: 2]
 
 # create a query
-query = from u in "users",
-            where: u.age > 18,
-            select: u.name
+query = from u in "users", where: u.age > 18, select: u.name
 
 # send the query to the repository
 Repo.all(query)
+```
+
+**Macro-based variant**
+
+```elixir
+User
+|> where([u], u.age > 18)
+|> select([u], u.name)
+|> Repo.all()
 ```
 
 ### Ecto.Query Functions ([Read more here](https://hexdocs.pm/ecto/Ecto.Query.html#functions))
