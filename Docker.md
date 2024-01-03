@@ -1,4 +1,4 @@
-`Bug`: How to Fix Docker Error – “Got Permission Denied While Trying To Connect To The Docker Daemon Socket” ?
+`Bug`: How to Fix Docker Error – “Got Permission Denied While Trying To Connect To The Docker Daemon Socket”?
 
 Try this
 
