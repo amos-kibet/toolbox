@@ -16,7 +16,7 @@ Once we have types out of the schema, we can now use `import_types` macro inside
 import_types __MODULE__.MenuTypes
 ```
 
-Note that we're using the `__MODULE__` shorthand, to denote the current module. This is because type modules typically reside beside the schema module. If there are any nesting, probably as a result of namespacing type modules, or any other reason, make sure to use the full module name instead.
+Note that we're using the `__MODULE__` shorthand, to denote the current module. This is because type modules typically reside beside the schema module. If there are any nesting, probably as a result of namespacing type modules, or for any other reason, make sure to use the full module name instead.
 
 `import_types` macro should only be used from the schema module.
 
@@ -26,6 +26,6 @@ You can also free up your Absinthe schema by moving your query fields to the typ
 
 ```Elixir
 query do
-    import fields :menu_queries
+    import_fields :menu_queries
 end
 ```

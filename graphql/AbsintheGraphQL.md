@@ -6,7 +6,9 @@ At a high-level, this is how a GraphQL request is handled, in Elixir-world:
 
 ![Handling GraphQL request in Elixir diagram](../media/graphql_request_in_elixir.png)
 
-### Providing Field Argument Values
+### Queries
+
+**Providing Field Argument Values**
 
 There are two ways that a GraphQL user can provide values for an argument: as document literals, and as variables.
 
@@ -190,7 +192,10 @@ Here's an example API response incase of an error.
     "data": {
         "createMenuItem": {
             "errors": [
-                { "key": "name", "message": "has already been taken" }
+                {
+                    "key": "name",
+                    "message": "has already been taken"
+                }
             ],
             "menuItem": nil
         }
@@ -238,4 +243,126 @@ fragment CategoryFields on Category {
         ... MenuItemFields
     }
 }
+```
+
+### Absinthe.Resolution
+
+`%Absinthe.Resolution{}` is a struct that carries information about the current resolution.
+
+Just like `Plug`'s `%Conn{}`, it is the piece of information that is passed along from middleware to middleware as part of resolution.
+
+**Contents:**
+
+- `adapter` - The adapter used for any name conversions.
+- `definition` - The blueprint definition for this field.
+- `context` - The context passed to `Absinthe.run`.
+- `root_value` - The root value passed to `Absinthe.run`.
+- `parent_type` - The parent type for the field.
+- `private` - Operates similarly to the `:private` key on a `%Plug.Conn{}` struct.
+- `schema` - The current schema.
+- `source` - The resolved parent objectl source of this field.
+
+### Subscriptions
+
+Subscriptions let a client submit a GraphQL document that, instead of being executed immediately, is executed on the basis of some event in the system.
+
+The first thing to do is adding an `Absinthe.Subscription` supervisor to the application's supervision tree. The supervisor starts a number of processes that will handle broadcasting results and hold on to subscription documents.
+
+**Event modeling**
+
+This involves building out the schema, migration and context modules for your data.
+
+### Resolvers
+
+A resolver is a function that sits between your schema and your context modules. It relays data from your schema to your context, and vice versa.
+
+A resolver can take two forms:
+
+- A function with an arity of 3 (taking a parent, arguments, and a resolution struct),
+- An alternative, short form with an arity of 2 (omitting the first parameter, the parent).
+
+The first argument (parent) of a resolver matches the parent object of a field.
+
+The second argument (arguments) is a map of user input data.
+
+The third argument (resolution struct) carries along with it the Absinthe context, a data structure that serves as the integration point with external mechanisms--like Plug that authenticates the current user.
+
+### Dataloader
+
+It's a tool that provides an easy way to load data in batches.
+
+The core concept of dataloader is a datasource which is just a struct that encodes a way of retrieving data.
+
+### Testing Absinthe GraphQL APIs
+
+There are three main approaches to testing GraphQL APIs built with Absinthe:
+
+- Testing resolver functions, since they do most of the work,
+- Testing GraphQL document execution directly via `Absinthe.run`, and,
+- Outside-in, testing the full HTTP request/response cycle.
+
+**Outside-in testing, with Absinthe Plug**
+
+To test HTTP requests with Absinthe, we'll need `absinthe_plug` library.
+
+**Example:**
+
+Say we want to test the folowing example:
+
+```Elixir
+defmodule MyAppWeb.Schema do
+  use Absinthe.Schema
+
+  @fakedb %{
+    "1" => %{name: "Bob", email: "bubba@foo.com"},
+    "2" => %{name: "Fred", email: "fredmeister@foo.com"}
+  }
+
+  query do
+    field :user, :user do
+      arg :id, non_null(:id)
+
+      resolve &find_user/2
+    end
+  end
+
+  object :user do
+    field :name, :string
+    field :email, :string
+  end
+
+  defp find_user(%{id: id}, _) do
+    {:ok, Map.get(@fakedb, id)}
+  end
+end
+```
+
+The test could look something like this:
+
+```Elixir
+defmodule MyAppWeb.SchemaTest do
+  use MyAppWeb.ConnCase
+
+  @user_query """
+  query getUser($id: ID!) {
+    user(id: $id) {
+      name
+      email
+    }
+  }
+  """
+
+  test "query: user", %{conn: conn} do
+    conn =
+      post(conn, "/api", %{
+        "query" => @user_query,
+        "variables" => %{id: 1}
+      })
+
+    assert json_response(conn, 200) == %{
+             "data" => %{"user" => %{"email" => "bubba@foo.com", "name" => "Bob"}}
+           }
+  end
+end
+
 ```

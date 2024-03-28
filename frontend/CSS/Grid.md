@@ -79,7 +79,7 @@ Next, create a layout using `grid-template-areas`, which will contain a coded re
 }
 ```
 
-Next, assign each letter in your grid are template to an element within your grid using the `grid-area` property.
+Next, assign each letter in your grid area template to an element within your grid using the `grid-area` property.
 
 ```CSS
 header {
@@ -95,7 +95,7 @@ footer {
 
 Look at the line of code below. From left to right, it reads:
 
-> Repeat as many columns that will fit on a screen. Each column should be a minimum of 10px wide and a maximum of 1fr wide.
+> Repeat as many columns that will fit on a screen. Each column should be a minimum of 100px wide and a maximum of 1fr wide.
 
 ```CSS
 grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));

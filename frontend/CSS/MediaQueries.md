@@ -51,11 +51,22 @@ These rules can also be combined using the following words:
 
 ```CSS
 /* On screens with a maximum window width of 1280px */
-@media screen and (max-width: 1280px)
+@media screen and (max-width: 1280px) {
+    /* Add your rules here */
+}
+
 /* On all screen types with a window width of between 1024px and 1280px */
-@media all and (min-width: 1024px) and (max-width: 1280px)
+@media all and (min-width: 1024px) and (max-width: 1280px) {
+    /* Add your rules here */
+}
+
 /* On TVs */
-@media tv
+@media tv {
+    /* Add your rules here */
+}
+
 /* On all vertically oriented types of screens */
-@media all and (orientation: portrait)
+@media all and (orientation: portrait) {
+    /* Add your rules here */
+}
 ```

@@ -10,6 +10,6 @@
 
 - `em` is relative to the parent element's font size. For example, you can use `em` when you need to set a size relative to its parent, such as for a button that needs to grow or shrink within its container.
 - `rem` is relative to the root (HTML) font size. You can use `rem` for font sizes to make it more accessible to users who have changed their browsers' default font size.
-- Use `rem` for consistency and predictability,and `em` if you want to scale your page on a modular level. Really, you would most often want to use `rem` generally, and `em` for specific requirements like growing or shrinking a button's font size relative to it's container.
+- Use `rem` for consistency and predictability, and `em` if you want to scale your page on a modular level. Really, you would most often want to use `rem` generally, and `em` for specific requirements like growing or shrinking a button's font size relative to it's container.
 - `rem` is mostly used for global values such as font-sizes, margins, and padding.
-- `em` is more suited for values that are specific to aparticular element and its children, like a navbar, header, footer, etc.
+- `em` is more suited for values that are specific to a particular element and its children, like a navbar, header, footer, etc.

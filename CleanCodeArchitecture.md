@@ -12,7 +12,7 @@ Resilient software is divided into layers. It should be:
 
 - **Independent of any external agency** -- Business rules don't know anything about outside world
 
-One can follow these steps to achience clean architecture:
+One can follow these steps to achieve clean architecture:
 
 - Start with models, schema and validation. Write test spec.
 

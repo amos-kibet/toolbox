@@ -26,7 +26,6 @@
 **Utilities**
 
 - A utility class is a class that only does one thing. It is single-responsibility class.
-- Example:
 
 ```CSS
 
@@ -76,3 +75,19 @@
 - This layer should not:
   - Variate a block to the point where it isn't recognisable anymore. This is where a new block should be created
   - Use CSS classes
+
+```CSS
+/* Normal state button */
+
+button {
+  background-color: red;
+  cursor: pointer;
+}
+
+/* Disabled variant of the button */
+
+button[data-state="disabled"] {
+ background-color: brown;
+ cursor: not-allowed;
+}
+```
