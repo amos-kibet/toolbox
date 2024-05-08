@@ -70,3 +70,15 @@ These rules can also be combined using the following words:
     /* Add your rules here */
 }
 ```
+
+### Breakpoint settings for commonly used screen sizes
+
+| Breakpoint setting | For device |
+|--------|--------|
+| max-width 320p px | Smartwatches |
+| max-width 420 px | Smaller devices |
+| max-width 600 px | Phones |
+| min-width 600 px | Tablets and large phones |
+| min-width 768 px | Tablets |
+| min-width 992 px | Laptops and desktops |
+| min-width 1200 px | Monitors, desktops |
