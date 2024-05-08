@@ -1,0 +1,119 @@
+body {
+  color: #fff;
+  font-family: Futura;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  background-color: #a4036f;
+}
+
+h2 {
+  color: black;
+}
+
+h3 {
+  background-color: #048ba8;
+}
+
+#one {
+  background-color: #16db93;
+}
+
+ul {
+  background-color: #efea5a;
+}
+
+#two {
+  background-color: #fe5e41;
+}
+
+a {
+  background-color: #e6f6c2;
+  color: #000;
+}
+
+.container {
+  display: grid;
+  grid-template: repeat(3, 1.6fr) / repeat(3, 1fr);
+  grid-gap: 10px;
+  text-align: center;
+}
+
+.container div:nth-child(1) {
+  background-color: #30a2da;
+  padding: 10px 10px;
+}
+
+.container div:nth-child(2) {
+  background-color: #f5a623;
+  padding: 10px 10px;
+}
+
+.container div:nth-child(3) {
+  background-color: #a3e4d7;
+  padding: 10px 10px;
+}
+
+.container div:nth-child(4) {
+  background-color: #fa5b3e;
+  padding: 10px 10px;
+}
+
+.container div:nth-child(5) {
+  background-color: #7279b8;
+  padding: 10px 10px;
+}
+
+.container div:nth-child(6) {
+  background-color: #ffca28;
+  padding: 10px 10px;
+}
+
+.container div:nth-child(7) {
+  background-color: #b3de69;
+  padding: 10px 10px;
+}
+
+.container div:nth-child(8) {
+  background-color: #4bc0c0;
+  padding: 10px 10px;
+}
+
+#one {
+  grid-column: 1 / span 3;
+}
+
+#two {
+  grid-row: 2 / span 2;
+}
+
+#five {
+  grid-column: 2 / span 2;
+}
+
+#six {
+  grid-column: 1 / span 2;
+}
+
+#eight {
+  grid-column: 1 / -1;
+}
+
+.em-rem-container {
+  color: black;
+  font-size: 32px;
+}
+
+.em-rem-container p {
+  font-size: 4rem;
+}
+
+.em-rem-container :nth-child(2) {
+  font-size: 1rem;
+}
+
+.em-rem-container :nth-child(3) {
+  font-size: 1em;
+}
