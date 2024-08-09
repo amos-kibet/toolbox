@@ -95,7 +95,7 @@ function install() {
         echo "Installing mise..."
         curl https://mise.run | sh
         echo 'eval "$(~/.local/bin/mise activate zsh)"' >>~/.zshrc
-        source ~/.zshrc
+        eval "$(~/.local/bin/mise activate zsh)"
         ;;
     "Erlang")
         mise use -g erlang@27.0.1
@@ -104,6 +104,7 @@ function install() {
         mise use -g elixir@1.17.2-otp-27
         ;;
     "Phoenix")
+        source ~/.zshrc 
         mix local.hex --force
         mix archive.install --force hex phx_new 1.7.14
         ;;
