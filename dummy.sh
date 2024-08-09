@@ -1,4 +1,6 @@
 #! /bin/bash
+# Install these first:
+# apt install -y sudo zsh asciinema autoconf automake make gcc g++ curl unzip libssl-dev libncurses-dev apt-utils
 
 # Make sure important variables exist if not already defined
 #
