@@ -1,7 +1,7 @@
 #! /bin/bash
 # Install these first:
 # apt install -y sudo zsh asciinema autoconf automake make gcc g++ curl unzip libssl-dev libncurses-dev apt-utils
-
+#
 # Make sure important variables exist if not already defined
 #
 # $USER is defined by login(1) which is not always executed (e.g. containers)
@@ -37,9 +37,6 @@ function already_installed() {
     "wget")
         dpkg -l | grep -q wget
         ;;
-    "Homebrew")
-        which brew >/dev/null 2>&1
-        ;;
     "mise")
         which mise >/dev/null 2>&1
         ;;
@@ -53,15 +50,8 @@ function already_installed() {
         mix phx.new --version >/dev/null 2>&1
         ;;
     "PostgreSQL")
-        which pg_ctl >/dev/null 2>&1
-        # TODO: Use this instead of the original command above
-        # which psql >/dev/null 2>&1
+        which psql >/dev/null 2>&1
         ;;
-
-    "Node.js")
-        which node >/dev/null 2>&1
-        ;;
-
     *)
         echo "Invalid name argument on checking"
         ;;
@@ -71,31 +61,18 @@ function already_installed() {
 function install() {
     case $1 in
     "Git")
-        sudo apt install -y git
+        sudo apt-get install -y git
         ;;
     "Zsh")
-        sudo apt install -y zsh
-        ;;
-    "oh-my-zsh")
-        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        sudo apt-get install -y zsh
         ;;
     "wget")
-        sudo apt install -y wget
-        ;;
-    "Homebrew")
-        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        echo '# Set PATH, MANPATH, etc., for Homebrew.' >>~/.zshrc
-        (
-            echo
-            echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
-        ) >>~/.zshrc
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        sudo apt-get install -y wget
         ;;
     "mise")
-        echo "Installing mise..."
         curl https://mise.run | sh
         echo 'eval "$(~/.local/bin/mise activate zsh)"' >>~/.zshrc
-        eval "$(~/.local/bin/mise activate zsh)"
+        eval "$(~/.local/bin/mise activate zsh --shims)"
         ;;
     "Erlang")
         mise use -g erlang@27.0.1
@@ -104,24 +81,18 @@ function install() {
         mise use -g elixir@1.17.2-otp-27
         ;;
     "Phoenix")
-        source ~/.zshrc 
         mix local.hex --force
         mix archive.install --force hex phx_new 1.7.14
         ;;
     "PostgreSQL")
-        sudo apt update
-        sudo apt -y install linux-headers-generic build-essential libssl-dev libreadline-dev zlib1g-dev libcurl4-openssl-dev uuid-dev icu-devtools
-        # TODO: Add this to the original command
-        sudo apt -y install postgresql
+        sudo apt-get update
+        sudo apt-get -y install linux-headers-generic build-essential libssl-dev libreadline-dev zlib1g-dev libcurl4-openssl-dev uuid-dev icu-devtools
 
-        echo 'pg_ctl() { "/usr/lib/postgresql/16/bin/pg_ctl" "$@"; }' >>~/.profile
-        source ~/.zshrc >/dev/null 2>&1
+        RUNLEVEL=1 sudo apt-get -y install postgresql
         ;;
-
-    "Node.js")
-        mise use -g nodejs@20.16.0
+    "oh-my-zsh")
+        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
         ;;
-
     *)
         echo "Invalid name argument on install"
         ;;
@@ -133,7 +104,7 @@ function maybe_install() {
         echo "$1 is already installed. Skipping..."
     else
         echo "Installing $1..."
-        if [[ $1 == "Homebrew" || $1 == "Erlang" ]]; then
+        if [[ $1 == "Erlang" ]]; then
             echo "This might take a while."
         fi
         echo ""
@@ -154,15 +125,7 @@ function add_env() {
 
     echo -e "${white}"
     sleep 2
-    maybe_install "oh-my-zsh"
-
-    echo -e "${white}"
-    sleep 2
     maybe_install "wget"
-
-    echo -e "${white}"
-    sleep 2
-    maybe_install "Homebrew"
 
     echo -e "${white}"
     sleep 3
@@ -184,14 +147,9 @@ function add_env() {
     sleep 1.5
     maybe_install "PostgreSQL"
 
-    if [[ "$1" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-        echo -e "${white}"
-
-        sleep 1.5
-        maybe_install "Node.js"
-        echo -e "${white}"
-
-    fi
+    echo -e "${white}"
+    sleep 2
+    maybe_install "oh-my-zsh"
 
     echo -e "${white}"
     echo -e "${cyan}${bold}phx.tools setup is complete!"
@@ -247,12 +205,11 @@ echo -e "${cyan}${bold}"
 
 echo "1) Build dependencies"
 echo "2) Zsh"
-echo "3) Homebrew"
-echo "4) mise"
-echo "5) Erlang"
-echo "6) Elixir"
-echo "7) Phoenix"
-echo "8) PostgreSQL"
+echo "3) mise"
+echo "4) Erlang"
+echo "5) Elixir"
+echo "6) Phoenix"
+echo "7) PostgreSQL"
 
 echo ""
 echo -e "${white} ${bold}"
@@ -282,17 +239,6 @@ while ! is_yn "$answer"; do
     case "$answer" in
     [yY] | [yY][eE][sS])
 
-        optional=""
-
-        while ! is_yn "$optional"; do
-            read -p "Do you want us to install Node.js as well? (y/n) " optional
-
-            if ! [[ "$optional" =~ ^([yY][eE][sS]|[yY]|[nN]|[nN][oO])$ ]]; then
-                echo "Please enter y or n"
-                echo ""
-            fi
-        done
-
         echo ""
 
         echo -e "${bblue}${bold}We're going to switch your default shell to Zsh even if it's not available yet, so you might see the following:"
@@ -303,9 +249,9 @@ while ! is_yn "$answer"; do
 
         sleep 3
 
-        chsh -s '/bin/zsh' "${USER}"
+        sudo -S chsh -s '/bin/zsh' "${USER}"
 
-        add_env "$optional"
+        add_env
         ;;
     [nN] | [nN][oO])
         echo "Thank you for your time"
