@@ -22,7 +22,7 @@ Note that we're using the `__MODULE__` shorthand, to denote the current module. 
 
 ### Importing fields
 
-You can also free up your Absinthe schema by moving your query fields to the types module, then pointing to them using the `import_fields` macro.
+You can also free up your Absinthe schema by moving your query fields to the fields module, then pointing to them using the `import_fields` macro.
 
 ```Elixir
 query do

@@ -68,7 +68,7 @@ defmodule AppWeb.GraphQLHelpers do
     # Required by the post function from Phoenix.ConnTest
     @endpoint AppWeb.Endpoint
 
-    def qpl_post(options, response \\ 200) do
+    def gql_post(options, response \\ 200) do
         build_conn()
         |> put_resp_content_type("application/json")
         |> post("/api/graphql", options)
@@ -205,8 +205,8 @@ defmodule AppWeb.GraphQl.Blog.PostMutationsTest do
                "data" => nil,
                "errors" => [
                  %{
-                   "message" => "should be at least 4 character(s)",
-                   "details" => %{"field" => ["title"]}
+                   "details" => %{"field" => ["title"]},
+                   "message" => "should be at least 4 character(s)"
                  }
                ]
              } =
@@ -221,7 +221,7 @@ end
 
 **Creating GraphQL test case for subscriptions**
 
-Testing the subscription is different than testing queries or mutations. We have to create a socket, subscribe to a subscription, trigger the subscription, with mutation, and lastly check if the subscription returns what we want.
+Testing the subscription is different than testing queries or mutations. We have to create a socket, subscribe to a subscription, trigger the subscription with mutation, and lastly check if the subscription returns what we want.
 
 We have to define a `channel_case` helper module. Documentation on how `channels` are tested is found [here](https://hexdocs.pm/phoenix/testing_channels.html#the-channelcase).
 
@@ -267,6 +267,8 @@ defmodule AppWeb.SubscriptionCase do
       use Absinthe.Phoenix.SubscriptionTest, schema: AppWeb.GraphQl.Schema
 
       import AppWeb.GraphQlHelpers
+
+      # TODO: maybe make some functions here public; the ones being used outside of this module.
 
       defp create_socket(params \\ %{}) do
         {:ok, socket} = ChannelTest.connect(AppWeb.UserSocket, params)

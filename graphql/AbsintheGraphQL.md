@@ -36,6 +36,8 @@ query ($term: String) {
 }
 ```
 
+# TODO: give an example of a variable
+
 **Using Enumeration Types**
 
 A GraphQL enumeration is a special type of scalar that has a defined, finite set of possible values.
@@ -45,6 +47,8 @@ Examples:
 - Available shirt sizes: S, M, L and XL,
 - Color components: RED, BLUE, and GREEN
 - Ordering: ASC and DESC
+
+# TODO: give an example of using Enums
 
 ### Mutations
 
@@ -128,7 +132,7 @@ def create_item(_, %{input: params}, _) do
 Here's how the return value of the resolver function would look like in case of an error:
 
 ```Elixir
-{
+%{
     :error,
     message: "Could not create menu item",
     details: %{

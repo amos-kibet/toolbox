@@ -40,3 +40,11 @@ Communication between processes works the same way regardless of whether these p
 ### Responsiveness
 
 A scheduler is preemptive—it gives a small execution window to each process and then pauses it and runs another process. Because the execution window is small, a sin- gle long-running process can’t block the rest of the system. Furthermore, I/O opera- tions are internally delegated to separate threads, or a kernel-poll service of the underlying OS is used, if available. This means any process that waits for an I/O oper- ation to finish won’t block the execution of other processes.
+
+### Concurrent Elixir
+
+To make your system highly available, you must tackle the following challenges:
+
+- **Fault tolerance** - Minimize, isolate, and recover from the effects of run-time errors.
+- **Scalability** - Handle a load increase by adding more hardware resources without changing or redeploying the code.
+- **Distribution** - Run your system on multiple machines so that others can take over if one machine crashes.

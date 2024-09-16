@@ -20,11 +20,17 @@ Along with functions for each field on each type:
 ```JS
 function Query_me(request) {
     return request.auth.user
+
+}
+
+function User_id(user) {
+    return user.getId()
 }
 
 function User_name(user) {
     return user.getName()
 }
+
 ```
 
 **How GraphQL works on the high-level**
@@ -111,7 +117,9 @@ This means that you, as the API developer, are responsible for accurately buildi
 
 **GraphQL Inputs**
 
-With GraphQL, you have a predefined schema with declared types and rules about the input that you can receive from users to retrieve data. Tbis helps in input data validation so that, as the API developer, you don't have to do that manually. When someone sends you data, it is checked against these rules before your code is executed.
+With GraphQL, you have a predefined schema with declared types and rules about the input that you can receive from users to retrieve data. This helps in input data validation so that, as the API developer, you don't have to do that manually. When someone sends you data, it is checked against these rules before your code is executed.
+
+Typically, an object type will reside in its own table in the database.
 
 If the client sends something extra, or fails to send some required data, or if they send invalid data, they'll be given detailed error message in the API response, to that effect.
 
@@ -210,7 +218,7 @@ Result:
 }
 ```
 
-> The clients can enforce that certain variables are required by adding a `!` at the end of the variable type, like `SortOrder!`.
+> The client can enforce that certain variables are required by adding a `!` at the end of the variable type, like `SortOrder!`.
 
 > Enforcement can also be done on the server, by adding non-null constraints to the argument/variable types.
 
@@ -218,13 +226,13 @@ Result:
 
 ```Elixir
 query do
-    field :menu_items, list_of(:menu_itemx) do
+    field :menu_items, list_of(:menu_item) do
         arg(:filter, non_null(:menu_item))
     end
 end
 ```
 
-### Input Oblects
+### Input Objects
 
 Field arguments can be organized into groups using a mechanism called **input object types**. This object type exists just for argument types, making it easy to handle and organize an arbitrary number of arguments that our API clients can issue. See example below:
 
