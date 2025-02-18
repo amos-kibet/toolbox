@@ -13,3 +13,4 @@
     - Runs in constant time when properly designed.
 - In its simplest form, an index is a sorted table that allows for searches to be conducted in O(Log N) time complexity using binary search on a sorted data structure.
 - **Note:** Updating a table with indexes takes more time than updating a table without (because the indexes also need to be updated), so, only create indexes on columns that will be frequently searched against.
+- **GIN index** is a custom index used to speed up queries that use `LIKE` and `ILIKE` operators. Without a `GIN` index, such queries can take quite a lot of time to run, since they run a sequencial scan over every record in the database table.
